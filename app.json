@@ -55,14 +55,14 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "tu-project-id"
+        "projectId": "c5dd64d0-0baf-4d2b-8491-1783d3647156"
       }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/tu-project-id"
+      "url": "https://u.expo.dev/c5dd64d0-0baf-4d2b-8491-1783d3647156"
     }
   }
 }
