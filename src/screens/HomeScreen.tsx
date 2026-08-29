@@ -7,6 +7,7 @@ import {
   Alert,
   StyleSheet,
 } from "react-native";
+import * as Application from "expo-application"; // 👈 Agregar esta importación
 import { colors, globalStyles } from "../theme/styles";
 import { obtenerPrimerPaciente } from "../database/pacienteService";
 import { Paciente } from "../models/types";
@@ -18,9 +19,11 @@ interface HomeScreenProps {
 export default function HomeScreen({ navigation }: HomeScreenProps) {
   const [paciente, setPaciente] = useState<Paciente | null>(null);
   const [loading, setLoading] = useState(true);
+  const [appVersion, setAppVersion] = useState(""); // 👈 Estado para la versión
 
   useEffect(() => {
     cargarPaciente();
+    cargarVersion(); // 👈 Cargar la versión al iniciar
     const unsubscribe = navigation.addListener("focus", () => {
       cargarPaciente();
     });
@@ -35,6 +38,17 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
       console.error("Error al cargar paciente:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // 👈 Función para obtener la versión de la app
+  const cargarVersion = async () => {
+    try {
+      const version = Application.nativeApplicationVersion || "1.0.0";
+      setAppVersion(version);
+    } catch (error) {
+      console.error("Error al obtener versión:", error);
+      setAppVersion("1.0.0");
     }
   };
 
@@ -125,7 +139,8 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.version}>v1.0.0</Text>
+      {/* 👈 Versión dinámica de la app */}
+      <Text style={styles.version}>v{appVersion}</Text>
     </ScrollView>
   );
 }
